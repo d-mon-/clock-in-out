@@ -1,11 +1,14 @@
 {
   "name": "clockus",
   "version": "1.0.0",
-  "description": "author: Guerin Olivier",
+  "description": "",
   "main": "index.js",
   "scripts": {
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev:frontend": "pnpm --filter frontend dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "d-mon-",
+  "keywords": [],
+  "author": "",
   "license": "ISC"
 }

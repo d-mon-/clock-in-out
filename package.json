@@ -1,0 +1,11 @@
+{
+  "name": "clockus",
+  "version": "1.0.0",
+  "description": "author: Guerin Olivier",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "d-mon-",
+  "license": "ISC"
+}

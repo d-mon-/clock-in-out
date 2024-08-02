@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "packages/frontend"
+    },
+    {
+      "path": "packages/backend"
+    },
+    {
+      "path": "packages/common"
+    }
+  ],
+  "settings": {
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.importModuleSpecifier": "relative"
+  }
+}

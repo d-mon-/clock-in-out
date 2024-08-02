@@ -7,7 +7,8 @@ Or the process not being clear enough... Japanese usually love to display a lot 
 but for these apps, it was the opposite...
 
 - User authentication (possible SAML)
-- tenant-based (organization > division > group)
+- tenant-based (organization > division > group (+ sub groups )) -- company can have the same name
+  - group => id + group path + division id
 - ACL
 - Clock in, clock out feature
   - people being late, people being early

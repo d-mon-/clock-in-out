@@ -13,5 +13,8 @@
       "path": "packages/common"
     }
   ],
-  "settings": {}
+  "settings": {
+    "javascript.preferences.importModuleSpecifier": "relative",
+    "typescript.preferences.importModuleSpecifier": "relative"
+  }
 }

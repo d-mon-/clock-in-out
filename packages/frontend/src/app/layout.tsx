@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 import * as React from 'react';
 
-import '@/styles/globals.css';
-
+import ReactQueryProvider from '@/app/react-query-provider';
+// import '@/styles/globals.css';
 import { siteConfig } from '@/constant/config';
 
 //Look at @/constant/config to change them
@@ -44,7 +44,9 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }

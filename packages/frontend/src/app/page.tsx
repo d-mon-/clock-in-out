@@ -11,8 +11,6 @@ import '@/lib/env';
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
 
-
-
 export default function HomePage() {
-  return <main></main>;
+  return <main>test</main>;
 }

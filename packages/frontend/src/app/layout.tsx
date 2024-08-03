@@ -1,9 +1,17 @@
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { Metadata } from 'next';
 import * as React from 'react';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import ReactQueryProvider from '@/app/react-query-provider';
 // import '@/styles/globals.css';
 import { siteConfig } from '@/constant/config';
+
+import theme from '../theme';
 
 //Look at @/constant/config to change them
 export const metadata: Metadata = {
@@ -45,7 +53,14 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        <CssBaseline />
+
+        <ReactQueryProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          </AppRouterCacheProvider>
+        </ReactQueryProvider>
+        <ToastContainer position='top-right' autoClose={3000} />
       </body>
     </html>
   );

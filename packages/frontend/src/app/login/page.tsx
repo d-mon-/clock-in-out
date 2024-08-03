@@ -4,17 +4,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Avatar, Box, Button, Container, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { MdLockOutline } from 'react-icons/md';
-import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
-import {
-  AuthControllerQuery,
-  AuthLoginDto,
-  IAuthLoginDto,
-} from '@/api/axios-client';
+import { toaster } from '@/lib/toaster';
+
+import { AuthControllerQuery, AuthLoginDto } from '@/api/axios-client';
 import { MuiTextField } from '@/app/components/form/text-field';
 
-const authLoginSchema: yup.ObjectSchema<IAuthLoginDto> = yup
+import { SubmitDataType } from '@/types/schema';
+
+const authLoginSchema = yup
   .object({
     email: yup.string().email().required(),
     password: yup.string().required().required(),
@@ -28,9 +27,13 @@ export default function Login() {
     resolver: yupResolver(authLoginSchema),
   });
 
-  const handleLogin = async (data: any) => {
-    await loginMutation.mutate(new AuthLoginDto(data));
-    toast('Login successful', { toastId: 'login' });
+  const handleLogin = async (data: SubmitDataType<typeof handleSubmit>) => {
+    try {
+      await loginMutation.mutateAsync(new AuthLoginDto(data));
+      toaster.success('Login successful', { toastId: 'login' });
+    } catch (err: unknown) {
+      toaster.error(err);
+    }
   };
 
   return (

@@ -40,15 +40,9 @@ export class User {
   @ApiProperty({
     description: 'user password',
   })
-  password: string; // Later, if we add saml strategies, we would move this to a different table
-
-  @Column()
-  @IsNotEmpty()
-  @Exclude()
-  salt: string;
+  password: string; //+ salt; Later, if we add saml strategies, we would move this to a different table
 
   async validatePassword(password: string): Promise<boolean> {
-    const hash = await bcrypt.hash(password, this.salt);
-    return hash === this.password;
+    return bcrypt.compare(password, this.password);
   }
 }

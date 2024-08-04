@@ -22,11 +22,6 @@ export const toaster = {
           type: 'error',
         });
       }
-      return toast('Something bad happened, retry later', {
-        ...option,
-        toastId: 'something-wrong',
-        type: 'error',
-      });
     }
 
     if (err instanceof Error) {

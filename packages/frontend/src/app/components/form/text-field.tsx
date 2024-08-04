@@ -2,33 +2,35 @@
 
 import TextField from '@mui/material/TextField';
 import React from 'react';
-import { Control, Controller } from 'react-hook-form';
+import {
+  Controller,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+} from 'react-hook-form';
 
-export const MuiTextField = ({
+export const MuiTextField = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>({
   name,
   control,
-  label,
   ...props
-}: {
-  control: Control<any, any>;
-  name: string;
-  label: string;
-} & React.ComponentProps<typeof TextField>) => {
+}: Omit<ControllerProps<TFieldValues, TName>, 'render'> &
+  React.ComponentProps<typeof TextField>) => {
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue=''
       render={({ field, fieldState: { error } }) => (
         <TextField
           {...props}
           {...field}
-          label={label}
-          helperText={error ? error.message : null}
-          size='small'
+          helperText={error ? error.message : undefined}
           error={!!error}
           fullWidth
           variant='outlined'
+          inputRef={field.ref}
         />
       )}
     />

@@ -15,9 +15,10 @@ import { MuiTextField } from '@/app/components/form/text-field';
 import { SubmitDataType } from '@/types/schema';
 
 const authLoginSchema = yup
-  .object({
-    email: yup.string().email().required(),
-    password: yup.string().required().required(),
+  .object()
+  .shape({
+    email: yup.string().trim().email().required().default(''),
+    password: yup.string().trim().required().default(''),
   })
   .required();
 
@@ -28,6 +29,7 @@ export default function Login() {
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(authLoginSchema),
+    defaultValues: authLoginSchema.getDefault(),
   });
 
   const handleLogin = async (data: SubmitDataType<typeof handleSubmit>) => {

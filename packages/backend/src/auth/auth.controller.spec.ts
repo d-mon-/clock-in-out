@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../app.module';
 import { UsersService } from '../users/users.service';
+import * as cookieParser from 'cookie-parser';
 
 describe('AuthController', () => {
   let app: INestApplication;
@@ -14,6 +15,7 @@ describe('AuthController', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.use(cookieParser('secret'));
     await app.init();
   });
 
@@ -36,7 +38,7 @@ describe('AuthController', () => {
       .send({ email, password: 'password' })
       .expect(200)
       .expect((res) => {
-        return expect(res.body.access_token.length).toBeGreaterThan(100);
+        return expect(res.body.email).toBe(email);
       });
   });
 });

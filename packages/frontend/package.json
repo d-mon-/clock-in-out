@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:api": "npx react-query-swagger /input:../backend/swagger.json /output:src/api/axios-client.ts /template:Axios",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "eslint src --fix && pnpm format",

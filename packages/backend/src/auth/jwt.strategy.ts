@@ -15,7 +15,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { email: payload.email, sub: payload.sub };
+    console.log(payload);
+    return { email: payload.email, userId: payload.id };
   }
 
   private static extractJWTCookie(req: Request): string | null {

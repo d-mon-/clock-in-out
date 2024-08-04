@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, instanceToPlain } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsPositive } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -36,11 +36,15 @@ export class User {
 
   @Column()
   @IsNotEmpty()
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @ApiProperty({
     description: 'user password',
   })
   password: string; //+ salt; Later, if we add saml strategies, we would move this to a different table
+
+  toJSON() {
+    return instanceToPlain(this); // prevent password leak when serializing
+  }
 
   async validatePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);

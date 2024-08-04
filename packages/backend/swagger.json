@@ -5,6 +5,16 @@
       "post": {
         "operationId": "AuthController_login",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLoginDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": ""
@@ -49,6 +59,23 @@
   "servers": [],
   "components": {
     "schemas": {
+      "AuthLoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
       "CreateUserDto": {
         "type": "object",
         "properties": {

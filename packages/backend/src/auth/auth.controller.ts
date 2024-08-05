@@ -9,12 +9,12 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 import { Public } from '../_decorators/public';
-import { User } from '../_models/user.entity';
+import { User } from '../_entities/user.entity';
 import { AuthService } from './auth.service';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthLoginDto } from './dto/auth-login';
 import { ApiBody } from '@nestjs/swagger';
-import { LocalUser } from '../_decorators/user';
+import { CurrentUser } from '../_decorators/user';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +31,7 @@ export class AuthController {
   @ApiBody({ type: AuthLoginDto })
   @Post('login')
   async login(
-    @LocalUser() user: User,
+    @CurrentUser() user: User,
     @Res({ passthrough: true }) res: Response,
   ) {
     const access_token = await this.authService.login(user);

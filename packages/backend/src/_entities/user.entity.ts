@@ -1,17 +1,18 @@
 import { Exclude, instanceToPlain } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsPositive } from 'class-validator';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
+import { UserRecord } from './user-record.entity';
+import { BaseEntity } from './templates/base';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  @IsPositive()
+export class User extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
   @ApiProperty({
-    description: 'UserId',
+    description: 'uuid of the clock event',
   })
-  id: number;
+  uuid: string;
 
   @Column()
   @IsNotEmpty()
@@ -41,6 +42,9 @@ export class User {
     description: 'user password',
   })
   password: string; //+ salt; Later, if we add saml strategies, we would move this to a different table
+
+  @OneToMany(() => UserRecord, (clock) => clock.user)
+  clockRecords: UserRecord[];
 
   toJSON() {
     return instanceToPlain(this); // prevent password leak when serializing

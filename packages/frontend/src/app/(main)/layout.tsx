@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 
-import { Menu } from '@/app/components/menu';
+import { Menu } from '@/components/app-blocks/menu';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

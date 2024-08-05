@@ -46,7 +46,7 @@ export function createMutationKey(): MutationKey {
     ]);
 }
 
-export function useCreateMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.CreateUserRecordDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.CreateUserRecordDto, TContext> {
+export function useCreateMutation<TContext>(options?: Omit<UseMutationOptions<Types.UserRecord, unknown, Types.CreateUserRecordDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.UserRecord, unknown, Types.CreateUserRecordDto, TContext> {
   const key = createMutationKey();
   
   const metaContext = useContext(QueryMetaContext);
@@ -65,7 +65,7 @@ export function findAllUrl(): string {
   return url_;
 }
 
-let findAllDefaultOptions: Omit<UseQueryOptions<void, unknown, void>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<void, unknown, void>, 'queryFn'>> = {
+let findAllDefaultOptions: Omit<UseQueryOptions<Types.UserRecord[], unknown, Types.UserRecord[]>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<Types.UserRecord[], unknown, Types.UserRecord[]>, 'queryFn'>> = {
 };
 export function getFindAllDefaultOptions() {
   return findAllDefaultOptions;
@@ -86,9 +86,9 @@ export function __findAll(context: QueryFunctionContext, axiosConfig?: AxiosRequ
 );
 }
 
-export function useFindAllQuery<TSelectData = void, TError = unknown>(options?: Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
-export function useFindAllQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-  let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
+export function useFindAllQuery<TSelectData = Types.UserRecord[], TError = unknown>(options?: Omit<UseQueryOptions<Types.UserRecord[], TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useFindAllQuery<TSelectData = Types.UserRecord[], TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<Types.UserRecord[], TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined = undefined;
   
 
@@ -98,21 +98,21 @@ export function useFindAllQuery<TSelectData = void, TError = unknown>(...params:
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
 
-  return useQuery<void, TError, TSelectData>({
+  return useQuery<Types.UserRecord[], TError, TSelectData>({
     queryFn: axiosConfig ? (context) => __findAll(context, axiosConfig) : __findAll,
     queryKey: findAllQueryKey(),
-    ...findAllDefaultOptions as unknown as Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>,
+    ...findAllDefaultOptions as unknown as Omit<UseQueryOptions<Types.UserRecord[], TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
 
-export function setFindAllData(queryClient: QueryClient, updater: (data: void | undefined) => void, ) {
+export function setFindAllData(queryClient: QueryClient, updater: (data: Types.UserRecord[] | undefined) => Types.UserRecord[], ) {
   queryClient.setQueryData(findAllQueryKey(),
     updater
   );
 }
 
-export function setFindAllDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: void | undefined) => void) {
+export function setFindAllDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: Types.UserRecord[] | undefined) => Types.UserRecord[]) {
   queryClient.setQueryData(queryKey, updater);
 }
     
@@ -125,7 +125,7 @@ url_ = url_.replace("{id}", encodeURIComponent("" + id));
   return url_;
 }
 
-let findOneDefaultOptions: Omit<UseQueryOptions<void, unknown, void>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<void, unknown, void>, 'queryFn'>> = {
+let findOneDefaultOptions: Omit<UseQueryOptions<string, unknown, string>, 'queryKey' | 'queryFn'> & Partial<Pick<UseQueryOptions<string, unknown, string>, 'queryFn'>> = {
 };
 export function getFindOneDefaultOptions() {
   return findOneDefaultOptions;
@@ -157,11 +157,11 @@ export function __findOne(context: QueryFunctionContext, axiosConfig?: AxiosRequ
       context.queryKey[2] as string);
 }
 
-export function useFindOneQuery<TSelectData = void, TError = unknown>(dto: FindOneUserRecordsControllerQueryParameters, options?: Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useFindOneQuery<TSelectData = string, TError = unknown>(dto: FindOneUserRecordsControllerQueryParameters, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
 
-export function useFindOneQuery<TSelectData = void, TError = unknown>(id: string, options?: Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
-export function useFindOneQuery<TSelectData = void, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
-  let options: UseQueryOptions<void, TError, TSelectData> | undefined = undefined;
+export function useFindOneQuery<TSelectData = string, TError = unknown>(id: string, options?: Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>, axiosConfig?: Partial<AxiosRequestConfig>): UseQueryResult<TSelectData, TError>;
+export function useFindOneQuery<TSelectData = string, TError = unknown>(...params: any []): UseQueryResult<TSelectData, TError> {
+  let options: UseQueryOptions<string, TError, TSelectData> | undefined = undefined;
   let axiosConfig: AxiosRequestConfig |undefined = undefined;
   let id: any = undefined;
   
@@ -178,21 +178,21 @@ export function useFindOneQuery<TSelectData = void, TError = unknown>(...params:
   const metaContext = useContext(QueryMetaContext);
   options = addMetaToOptions(options, metaContext);
 
-  return useQuery<void, TError, TSelectData>({
+  return useQuery<string, TError, TSelectData>({
     queryFn: axiosConfig ? (context) => __findOne(context, axiosConfig) : __findOne,
     queryKey: findOneQueryKey(id),
-    ...findOneDefaultOptions as unknown as Omit<UseQueryOptions<void, TError, TSelectData>, 'queryKey'>,
+    ...findOneDefaultOptions as unknown as Omit<UseQueryOptions<string, TError, TSelectData>, 'queryKey'>,
     ...options,
   });
 }
 
-export function setFindOneData(queryClient: QueryClient, updater: (data: void | undefined) => void, id: string) {
+export function setFindOneData(queryClient: QueryClient, updater: (data: string | undefined) => string, id: string) {
   queryClient.setQueryData(findOneQueryKey(id),
     updater
   );
 }
 
-export function setFindOneDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: void | undefined) => void) {
+export function setFindOneDataByQueryId(queryClient: QueryClient, queryKey: QueryKey, updater: (data: string | undefined) => string) {
   queryClient.setQueryData(queryKey, updater);
 }
     
@@ -213,7 +213,7 @@ export function updateMutationKey(id: string): MutationKey {
     ]);
 }
 
-export function useUpdateMutation<TContext>(id: string, options?: Omit<UseMutationOptions<void, unknown, Types.UpdateUserRecordDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.UpdateUserRecordDto, TContext> {
+export function useUpdateMutation<TContext>(id: string, options?: Omit<UseMutationOptions<string, unknown, Types.UpdateUserRecordDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<string, unknown, Types.UpdateUserRecordDto, TContext> {
   const key = updateMutationKey(id);
   
   const metaContext = useContext(QueryMetaContext);
@@ -230,7 +230,7 @@ type Update__MutationParameters = UpdateUserRecordsControllerQueryParameters & {
   body: Types.UpdateUserRecordDto;
 }
 
-export function useUpdateMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, Update__MutationParameters, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: UpdateUserRecordsControllerQueryParameters}): UseMutationResult<void, unknown, Update__MutationParameters, TContext> {
+export function useUpdateMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<string, unknown, Update__MutationParameters, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: UpdateUserRecordsControllerQueryParameters}): UseMutationResult<string, unknown, Update__MutationParameters, TContext> {
   const key = updateMutationKey(options?.parameters?.id!);
   
   const metaContext = useContext(QueryMetaContext);
@@ -260,7 +260,7 @@ export function removeMutationKey(id: string): MutationKey {
     ]);
 }
 
-export function useRemoveMutation<TContext>(id: string, options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+export function useRemoveMutation<TContext>(id: string, options?: Omit<UseMutationOptions<string, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<string, unknown, void, TContext> {
   const key = removeMutationKey(id);
   
   const metaContext = useContext(QueryMetaContext);
@@ -275,7 +275,7 @@ export function useRemoveMutation<TContext>(id: string, options?: Omit<UseMutati
   
 type Remove__MutationParameters = RemoveUserRecordsControllerQueryParameters
 
-export function useRemoveMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<void, unknown, Remove__MutationParameters, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: RemoveUserRecordsControllerQueryParameters}): UseMutationResult<void, unknown, Remove__MutationParameters, TContext> {
+export function useRemoveMutationWithParameters<TContext>(options?: Omit<UseMutationOptions<string, unknown, Remove__MutationParameters, TContext>, 'mutationKey' | 'mutationFn'> & { parameters?: RemoveUserRecordsControllerQueryParameters}): UseMutationResult<string, unknown, Remove__MutationParameters, TContext> {
   const key = removeMutationKey(options?.parameters?.id!);
   
   const metaContext = useContext(QueryMetaContext);

@@ -70,8 +70,13 @@ export class UserRecordsService {
     });
   }
 
-  findAll() {
-    return `This action returns all userRecords`;
+  async findAll(user: User) {
+    return await this.userRecordsRepository.find({
+      where: {
+        user: { uuid: user.uuid },
+      },
+      order: { createdAt: 'DESC' },
+    });
   }
 
   findOne(id: number) {

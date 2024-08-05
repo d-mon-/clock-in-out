@@ -36,7 +36,7 @@ export class UserRecordsControllerClient {
 
     }
 
-    create(body: CreateUserRecordDto, cancelToken?: CancelToken | undefined): Promise<void> {
+    create(body: CreateUserRecordDto, cancelToken?: CancelToken | undefined): Promise<UserRecord> {
         let url_ = this.baseUrl + "/user-records";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -48,6 +48,7 @@ export class UserRecordsControllerClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -63,7 +64,7 @@ export class UserRecordsControllerClient {
         });
     }
 
-    protected processCreate(response: AxiosResponse): Promise<void> {
+    protected processCreate(response: AxiosResponse): Promise<UserRecord> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -75,16 +76,19 @@ export class UserRecordsControllerClient {
         }
         if (status === 201) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result201: any = null;
+            let resultData201  = _responseText;
+            result201 = UserRecord.fromJS(resultData201);
+            return Promise.resolve<UserRecord>(result201);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<UserRecord>(null as any);
     }
 
-    findAll( cancelToken?: CancelToken | undefined): Promise<void> {
+    findAll( cancelToken?: CancelToken | undefined): Promise<UserRecord[]> {
         let url_ = this.baseUrl + "/user-records";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -92,6 +96,7 @@ export class UserRecordsControllerClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -107,7 +112,7 @@ export class UserRecordsControllerClient {
         });
     }
 
-    protected processFindAll(response: AxiosResponse): Promise<void> {
+    protected processFindAll(response: AxiosResponse): Promise<UserRecord[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -119,16 +124,26 @@ export class UserRecordsControllerClient {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(UserRecord.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<UserRecord[]>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<UserRecord[]>(null as any);
     }
 
-    findOne(id: string, cancelToken?: CancelToken | undefined): Promise<void> {
+    findOne(id: string, cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/user-records/{id}";
         if (id === undefined || id === null)
           throw new Error("The parameter 'id' must be defined.");
@@ -139,6 +154,7 @@ export class UserRecordsControllerClient {
             method: "GET",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -154,7 +170,7 @@ export class UserRecordsControllerClient {
         });
     }
 
-    protected processFindOne(response: AxiosResponse): Promise<void> {
+    protected processFindOne(response: AxiosResponse): Promise<string> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -166,16 +182,20 @@ export class UserRecordsControllerClient {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 
-    update(id: string, body: UpdateUserRecordDto, cancelToken?: CancelToken | undefined): Promise<void> {
+    update(id: string, body: UpdateUserRecordDto, cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/user-records/{id}";
         if (id === undefined || id === null)
           throw new Error("The parameter 'id' must be defined.");
@@ -190,6 +210,7 @@ export class UserRecordsControllerClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -205,7 +226,7 @@ export class UserRecordsControllerClient {
         });
     }
 
-    protected processUpdate(response: AxiosResponse): Promise<void> {
+    protected processUpdate(response: AxiosResponse): Promise<string> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -217,16 +238,20 @@ export class UserRecordsControllerClient {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 
-    remove(id: string, cancelToken?: CancelToken | undefined): Promise<void> {
+    remove(id: string, cancelToken?: CancelToken | undefined): Promise<string> {
         let url_ = this.baseUrl + "/user-records/{id}";
         if (id === undefined || id === null)
           throw new Error("The parameter 'id' must be defined.");
@@ -237,6 +262,7 @@ export class UserRecordsControllerClient {
             method: "DELETE",
             url: url_,
             headers: {
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -252,7 +278,7 @@ export class UserRecordsControllerClient {
         });
     }
 
-    protected processRemove(response: AxiosResponse): Promise<void> {
+    protected processRemove(response: AxiosResponse): Promise<string> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -264,13 +290,17 @@ export class UserRecordsControllerClient {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<string>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<string>(null as any);
     }
 }
 
@@ -381,7 +411,7 @@ export class UsersControllerClient {
 
     }
 
-    create(body: CreateUserDto, cancelToken?: CancelToken | undefined): Promise<void> {
+    create(body: CreateUserDto, cancelToken?: CancelToken | undefined): Promise<User> {
         let url_ = this.baseUrl + "/users/create";
           url_ = url_.replace(/[?&]$/, "");
 
@@ -393,6 +423,7 @@ export class UsersControllerClient {
             url: url_,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
             cancelToken
         };
@@ -408,7 +439,7 @@ export class UsersControllerClient {
         });
     }
 
-    protected processCreate(response: AxiosResponse): Promise<void> {
+    protected processCreate(response: AxiosResponse): Promise<User> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -420,13 +451,16 @@ export class UsersControllerClient {
         }
         if (status === 200) {
             const _responseText = response.data;
-            return Promise.resolve<void>(null as any);
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = User.fromJS(resultData200);
+            return Promise.resolve<User>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<void>(null as any);
+        return Promise.resolve<User>(null as any);
     }
 }
 
@@ -481,6 +515,188 @@ export class CreateUserRecordDto implements ICreateUserRecordDto {
 export interface ICreateUserRecordDto {
     /** IN/OUT event to record */
     event: CreateUserRecordDtoEvent;
+
+    [key: string]: any;
+}
+
+export class UserRecord implements IUserRecord {
+    /** Creation date */
+    createdAt!: Date;
+    /** Update date */
+    updatedAt!: Date;
+    /** uuid of the clock event */
+    uuid!: string;
+    /** User clockin input */
+    clockIn?: Date;
+    /** User clockout input */
+    clockOut?: Date;
+    user!: User;
+
+    [key: string]: any;
+
+    constructor(data?: IUserRecord) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.user = new User();
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : <any>undefined;
+            this.updatedAt = _data["updatedAt"] ? new Date(_data["updatedAt"].toString()) : <any>undefined;
+            this.uuid = _data["uuid"];
+            this.clockIn = _data["clockIn"] ? new Date(_data["clockIn"].toString()) : <any>undefined;
+            this.clockOut = _data["clockOut"] ? new Date(_data["clockOut"].toString()) : <any>undefined;
+            this.user = _data["user"] ? User.fromJS(_data["user"]) : new User();
+        }
+    }
+
+    static fromJS(data: any): UserRecord {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserRecord();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : <any>undefined;
+        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
+        data["uuid"] = this.uuid;
+        data["clockIn"] = this.clockIn ? this.clockIn.toISOString() : <any>undefined;
+        data["clockOut"] = this.clockOut ? this.clockOut.toISOString() : <any>undefined;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        return data;
+    }
+}
+
+export interface IUserRecord {
+    /** Creation date */
+    createdAt: Date;
+    /** Update date */
+    updatedAt: Date;
+    /** uuid of the clock event */
+    uuid: string;
+    /** User clockin input */
+    clockIn?: Date;
+    /** User clockout input */
+    clockOut?: Date;
+    user: User;
+
+    [key: string]: any;
+}
+
+export class User implements IUser {
+    /** Creation date */
+    createdAt!: Date;
+    /** Update date */
+    updatedAt!: Date;
+    /** uuid of the clock event */
+    uuid!: string;
+    /** User firstname */
+    firstName!: string;
+    /** User lastname */
+    lastName!: string;
+    /** User email */
+    email!: string;
+    /** user password */
+    password!: string;
+    clockRecords!: UserRecord[];
+
+    [key: string]: any;
+
+    constructor(data?: IUser) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+        if (!data) {
+            this.clockRecords = [];
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            for (var property in _data) {
+                if (_data.hasOwnProperty(property))
+                    this[property] = _data[property];
+            }
+            this.createdAt = _data["createdAt"] ? new Date(_data["createdAt"].toString()) : <any>undefined;
+            this.updatedAt = _data["updatedAt"] ? new Date(_data["updatedAt"].toString()) : <any>undefined;
+            this.uuid = _data["uuid"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.email = _data["email"];
+            this.password = _data["password"];
+            if (Array.isArray(_data["clockRecords"])) {
+                this.clockRecords = [] as any;
+                for (let item of _data["clockRecords"])
+                    this.clockRecords!.push(UserRecord.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        for (var property in this) {
+            if (this.hasOwnProperty(property))
+                data[property] = this[property];
+        }
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : <any>undefined;
+        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
+        data["uuid"] = this.uuid;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["password"] = this.password;
+        if (Array.isArray(this.clockRecords)) {
+            data["clockRecords"] = [];
+            for (let item of this.clockRecords)
+                data["clockRecords"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IUser {
+    /** Creation date */
+    createdAt: Date;
+    /** Update date */
+    updatedAt: Date;
+    /** uuid of the clock event */
+    uuid: string;
+    /** User firstname */
+    firstName: string;
+    /** User lastname */
+    lastName: string;
+    /** User email */
+    email: string;
+    /** user password */
+    password: string;
+    clockRecords: UserRecord[];
 
     [key: string]: any;
 }

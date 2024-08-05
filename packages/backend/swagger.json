@@ -17,7 +17,14 @@
         },
         "responses": {
           "201": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRecord"
+                }
+              }
+            }
           }
         }
       },
@@ -26,7 +33,17 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRecord"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -46,7 +63,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       },
@@ -74,7 +98,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       },
@@ -92,7 +123,14 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -134,7 +172,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         }
       }
@@ -169,6 +214,95 @@
         },
         "required": [
           "event"
+        ]
+      },
+      "UserRecord": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Update date"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "uuid of the clock event"
+          },
+          "clockIn": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockin input"
+          },
+          "clockOut": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockout input"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt",
+          "uuid",
+          "user"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Update date"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "uuid of the clock event"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "User firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "User lastname"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password"
+          },
+          "clockRecords": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserRecord"
+            }
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt",
+          "uuid",
+          "firstName",
+          "lastName",
+          "email",
+          "password",
+          "clockRecords"
         ]
       },
       "UpdateUserRecordDto": {

@@ -13,6 +13,7 @@ import { BaseEntity } from './templates/base';
 
 @Entity()
 @Check('"clockIn" IS NOT NULL OR "clockOut" IS NOT NULL')
+// @Exclusion(`USING gist ("user" WITH =, tsrange("clockIn", "clockOut") WITH &&)`) // todo get back to it later
 @Index(['user', 'createdAt'])
 export class UserRecord extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

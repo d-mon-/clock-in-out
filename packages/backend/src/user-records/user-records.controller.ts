@@ -26,8 +26,11 @@ export class UserRecordsController {
   }
 
   @Get()
-  findAll() {
-    return this.userRecordsService.findAll();
+  async findAll(
+    // TODO: add date filtering
+    @CurrentUser() user: User,
+  ) {
+    return await this.userRecordsService.findAll(user);
   }
 
   @Get(':id')

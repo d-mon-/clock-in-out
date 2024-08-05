@@ -1,3 +1,4 @@
+import { isPlainObject } from 'react-query/types/core/utils';
 import { toast } from 'react-toastify';
 
 import { ApiException } from '@/api/axios-client';

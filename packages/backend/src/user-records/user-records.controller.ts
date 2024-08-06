@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -12,10 +14,16 @@ import { User } from '../_entities/user.entity';
 import { CreateUserRecordDto } from './dto/create-user-record.dto';
 import { UpdateUserRecordDto } from './dto/update-user-record.dto';
 import { UserRecordsService } from './user-records.service';
+import { LambdaService } from '../lambda/lambda.service';
+import { plainToInstance } from 'class-transformer';
+import { DownloadFileDto } from '../_lambda/download-file/events/dto/DownloadFileDto';
 
 @Controller('user-records')
 export class UserRecordsController {
-  constructor(private readonly userRecordsService: UserRecordsService) {}
+  constructor(
+    private readonly userRecordsService: UserRecordsService,
+    private readonly lambdaService: LambdaService,
+  ) {}
 
   @Post()
   create(
@@ -31,6 +39,15 @@ export class UserRecordsController {
     @CurrentUser() user: User,
   ) {
     return await this.userRecordsService.findAll(user);
+  }
+
+  @Post('download')
+  @HttpCode(HttpStatus.OK)
+  download(@CurrentUser() user: User) {
+    console.log(user);
+    return this.lambdaService.downloadRecordFile(
+      plainToInstance(DownloadFileDto, { uuid: user.uuid }),
+    );
   }
 
   @Get(':id')

@@ -1,6 +1,55 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/users/create": {
+      "post": {
+        "operationId": "UsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user-records": {
       "post": {
         "operationId": "UserRecordsController_create",
@@ -44,6 +93,17 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/user-records/download": {
+      "post": {
+        "operationId": "UserRecordsController_download",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
@@ -134,55 +194,6 @@
           }
         }
       }
-    },
-    "/auth/login": {
-      "post": {
-        "operationId": "AuthController_login",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthLoginDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/users/create": {
-      "post": {
-        "operationId": "UsersController_create",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateUserDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "info": {
@@ -200,58 +211,48 @@
   "servers": [],
   "components": {
     "schemas": {
-      "CreateUserRecordDto": {
+      "AuthLoginDto": {
         "type": "object",
         "properties": {
-          "event": {
+          "email": {
             "type": "string",
-            "description": "IN/OUT event to record",
-            "enum": [
-              "in",
-              "out"
-            ]
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password"
           }
         },
         "required": [
-          "event"
+          "email",
+          "password"
         ]
       },
-      "UserRecord": {
+      "CreateUserDto": {
         "type": "object",
         "properties": {
-          "createdAt": {
-            "format": "date-time",
+          "firstName": {
             "type": "string",
-            "description": "Creation date"
+            "description": "User firstname"
           },
-          "updatedAt": {
-            "format": "date-time",
+          "lastName": {
             "type": "string",
-            "description": "Update date"
+            "description": "User lastname"
           },
-          "uuid": {
+          "email": {
             "type": "string",
-            "description": "uuid of the clock event"
+            "description": "User email"
           },
-          "clockIn": {
-            "format": "date-time",
+          "password": {
             "type": "string",
-            "description": "User clockin input"
-          },
-          "clockOut": {
-            "format": "date-time",
-            "type": "string",
-            "description": "User clockout input"
-          },
-          "user": {
-            "$ref": "#/components/schemas/User"
+            "description": "user password"
           }
         },
         "required": [
-          "createdAt",
-          "updatedAt",
-          "uuid",
-          "user"
+          "firstName",
+          "lastName",
+          "email",
+          "password"
         ]
       },
       "User": {
@@ -305,6 +306,60 @@
           "clockRecords"
         ]
       },
+      "UserRecord": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Update date"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "uuid of the clock event"
+          },
+          "clockIn": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockin input"
+          },
+          "clockOut": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockout input"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt",
+          "uuid",
+          "user"
+        ]
+      },
+      "CreateUserRecordDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "IN/OUT event to record",
+            "enum": [
+              "in",
+              "out"
+            ]
+          }
+        },
+        "required": [
+          "event"
+        ]
+      },
       "UpdateUserRecordDto": {
         "type": "object",
         "properties": {
@@ -317,50 +372,6 @@
             ]
           }
         }
-      },
-      "AuthLoginDto": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "User email"
-          },
-          "password": {
-            "type": "string",
-            "description": "user password"
-          }
-        },
-        "required": [
-          "email",
-          "password"
-        ]
-      },
-      "CreateUserDto": {
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string",
-            "description": "User firstname"
-          },
-          "lastName": {
-            "type": "string",
-            "description": "User lastname"
-          },
-          "email": {
-            "type": "string",
-            "description": "User email"
-          },
-          "password": {
-            "type": "string",
-            "description": "user password"
-          }
-        },
-        "required": [
-          "firstName",
-          "lastName",
-          "email",
-          "password"
-        ]
       }
     }
   }

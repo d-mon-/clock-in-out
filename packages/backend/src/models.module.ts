@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../_entities/user.entity';
-import { UserRecord } from '../_entities/user-record.entity';
+import { User } from './_entities/user.entity';
+import { UserRecord } from './_entities/user-record.entity';
 
 /**
  * This is my personal preference, I prefer to have a single folder with all entities inside

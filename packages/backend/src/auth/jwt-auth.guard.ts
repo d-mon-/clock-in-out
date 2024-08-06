@@ -7,7 +7,6 @@ import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { IS_PUBLIC_KEY } from '../_decorators/public';
 import { JsonWebTokenError } from '@nestjs/jwt';
-import { common } from 'common';
 import { Response } from 'express';
 
 @Injectable()
@@ -28,15 +27,15 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   override handleRequest(
-    _err: any,
+    err: any,
     user: any,
     info: any,
     context: ExecutionContext,
   ) {
-    if (info instanceof JsonWebTokenError) {
+    if (err || !user || info instanceof JsonWebTokenError) {
       const response: Response = context.getArgByIndex(1);
-      response.clearCookie(common.cookies.access_token);
-      response.clearCookie(common.cookies.is_authenticated);
+      response.clearCookie('user_token');
+      response.clearCookie('is_authenticated');
       throw new UnauthorizedException();
     }
     return user;

@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './_config/config.service';
-import { ThrottlerModule } from '@nestjs/throttler';
-import { UserRecordsController } from './user-records/user-records.controller';
-import { UserRecordsService } from './user-records/user-records.service';
+import { AuthModule } from './auth/auth.module';
+import { ModelsModule } from './models.module';
 import { UserRecordsModule } from './user-records/user-records.module';
-import { ModelsModule } from './models/models.module';
+import { UsersModule } from './users/users.module';
+import { LambdaModule } from './lambda/lambda.module';
 
 @Module({
   imports: [
@@ -22,8 +21,7 @@ import { ModelsModule } from './models/models.module';
       },
     ]),
     UserRecordsModule,
+    LambdaModule,
   ],
-  controllers: [UserRecordsController],
-  providers: [UserRecordsService],
 })
 export class AppModule {}

@@ -21,6 +21,7 @@ export const Client = () => getClientFactory()(UserRecordsControllerClientClass)
 import type { AxiosRequestConfig } from 'axios';
 
 
+
 export type FindOneUserRecordsControllerQueryParameters = {
   id: string ;
 }
@@ -116,6 +117,32 @@ export function setFindAllDataByQueryId(queryClient: QueryClient, queryKey: Quer
   queryClient.setQueryData(queryKey, updater);
 }
     
+export function downloadUrl(): string {
+  let url_ = getBaseUrl() + "/user-records/download";
+  url_ = url_.replace(/[?&]$/, "");
+  return url_;
+}
+
+export function downloadMutationKey(): MutationKey {
+  return trimArrayEnd([
+      'UserRecordsControllerClient',
+      'download',
+    ]);
+}
+
+export function useDownloadMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, void, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, void, TContext> {
+  const key = downloadMutationKey();
+  
+  const metaContext = useContext(QueryMetaContext);
+  options = addMetaToOptions(options, metaContext);
+  
+  return useMutation({
+    ...options,
+    mutationFn: () => Client().download(),
+    mutationKey: key,
+  });
+}
+  
 export function findOneUrl(id: string): string {
   let url_ = getBaseUrl() + "/user-records/{id}";
 if (id === undefined || id === null)

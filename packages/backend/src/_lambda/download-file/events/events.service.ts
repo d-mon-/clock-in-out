@@ -52,10 +52,6 @@ export class EventsService {
       })),
     );
 
-    // Ideally move this to nodemailer
-
-    console.log('To: ', user.email);
-
     await transporter.sendMail({
       from: 'onboarding@resend.dev',
       to: user.email,
@@ -69,7 +65,5 @@ export class EventsService {
         },
       ],
     });
-
-    console.log('done');
   }
 }

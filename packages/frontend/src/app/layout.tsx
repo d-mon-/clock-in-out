@@ -54,12 +54,11 @@ export default function RootLayout({
     <html>
       <body>
         <CssBaseline />
-
-        <ReactQueryProvider>
-          <AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+          <ReactQueryProvider>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </AppRouterCacheProvider>
-        </ReactQueryProvider>
+          </ReactQueryProvider>
+        </AppRouterCacheProvider>
         <ToastContainer position='top-right' autoClose={3000} />
       </body>
     </html>

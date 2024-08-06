@@ -2,7 +2,7 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Avatar, Box, Button, Container, Typography } from '@mui/material';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { MdLockOutline } from 'react-icons/md';
 import * as yup from 'yup';
@@ -27,6 +27,7 @@ export default function Login() {
   const loginMutation = AuthControllerQuery.useLoginMutation();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const { control, handleSubmit } = useForm({
     resolver: yupResolver(authLoginSchema),
@@ -37,7 +38,10 @@ export default function Login() {
     try {
       await loginMutation.mutateAsync(new AuthLoginDto(data));
       toaster.success('Login successful', { toastId: 'login' });
-      router.push('/');
+      const previousPath = searchParams.get('prev');
+      router.push(
+        previousPath?.startsWith('/') ? decodeURIComponent(previousPath) : '/'
+      );
     } catch (err: unknown) {
       toaster.error(err);
     }

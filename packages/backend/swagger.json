@@ -1,6 +1,140 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/user-records": {
+      "post": {
+        "operationId": "UserRecordsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserRecordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRecord"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "UserRecordsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserRecord"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-records/{id}": {
+      "get": {
+        "operationId": "UserRecordsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "UserRecordsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRecordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "UserRecordsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/auth/login": {
       "post": {
         "operationId": "AuthController_login",
@@ -38,7 +172,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
           }
         }
       }
@@ -59,6 +200,124 @@
   "servers": [],
   "components": {
     "schemas": {
+      "CreateUserRecordDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "IN/OUT event to record",
+            "enum": [
+              "in",
+              "out"
+            ]
+          }
+        },
+        "required": [
+          "event"
+        ]
+      },
+      "UserRecord": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Update date"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "uuid of the clock event"
+          },
+          "clockIn": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockin input"
+          },
+          "clockOut": {
+            "format": "date-time",
+            "type": "string",
+            "description": "User clockout input"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt",
+          "uuid",
+          "user"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Creation date"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string",
+            "description": "Update date"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "uuid of the clock event"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "User firstname"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "User lastname"
+          },
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "user password"
+          },
+          "clockRecords": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserRecord"
+            }
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt",
+          "uuid",
+          "firstName",
+          "lastName",
+          "email",
+          "password",
+          "clockRecords"
+        ]
+      },
+      "UpdateUserRecordDto": {
+        "type": "object",
+        "properties": {
+          "event": {
+            "type": "string",
+            "description": "IN/OUT event to record",
+            "enum": [
+              "in",
+              "out"
+            ]
+          }
+        }
+      },
       "AuthLoginDto": {
         "type": "object",
         "properties": {

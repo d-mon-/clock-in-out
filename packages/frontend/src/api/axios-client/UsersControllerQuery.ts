@@ -33,7 +33,7 @@ export function createMutationKey(): MutationKey {
     ]);
 }
 
-export function useCreateMutation<TContext>(options?: Omit<UseMutationOptions<void, unknown, Types.CreateUserDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<void, unknown, Types.CreateUserDto, TContext> {
+export function useCreateMutation<TContext>(options?: Omit<UseMutationOptions<Types.User, unknown, Types.CreateUserDto, TContext>, 'mutationKey' | 'mutationFn'>): UseMutationResult<Types.User, unknown, Types.CreateUserDto, TContext> {
   const key = createMutationKey();
   
   const metaContext = useContext(QueryMetaContext);

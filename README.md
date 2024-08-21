@@ -1,8 +1,10 @@
-# clock us
+# clock in & out
 
 node v20.15.1
 
 author: Guerin Olivier
+
+Small personal project with the aim to release it to production
 
 # Setup
 
